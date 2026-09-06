@@ -1,0 +1,54 @@
+# X8 NIDS — configuration
+#
+# Detection-only (blue team) network intrusion detection for monitoring
+# networks you OWN. No injection or attack primitives are shipped.
+#
+# NOTE: The `lab` ranges below are DOCUMENTATION LAB PLACEHOLDERS only
+# (RFC 5737 TEST-NET ranges: 192.0.2.0/24, 198.51.100.0/24, 203.0.113.0/24).
+# Replace them with your own authorized lab ranges before live use. Never use
+# real or routable addresses here, and never monitor networks you do not own.
+
+iface: any
+
+thresholds:
+  scan:
+    # Port-sweep: how many distinct destination ports from one source trigger
+    # a scan alert within the sliding window.
+    max_ports_per_source: 30
+    window_seconds: 10.0
+  brute:
+    # Repeated failed-auth signatures toward a single service port.
+    max_auth_failures: 5
+    window_seconds: 60.0
+    auth_ports: [22, 21, 23, 3389, 5900, 1433, 3306]
+  c2_beacon:
+    # Periodic-isochronous outbound connections (timing regularity).
+    min_beacons: 5
+    max_jitter_ratio: 0.20
+    window_seconds: 300.0
+    min_interval_seconds: 1.0
+  exfil:
+    # High-byte-count, long-lived flows to a single peer.
+    min_bytes: 1000000
+    min_duration_seconds: 30.0
+
+alert:
+  stream_path: logs/alerts.jsonl
+  api_host: 127.0.0.1
+  api_port: 8488
+  api_enabled: true
+
+logging:
+  level: INFO
+  file_path: logs/nids.log
+
+flows:
+  snapshot_path: flows/flows.jsonl
+  max_snapshot_lines: 10000
+
+lab:
+  home_ranges:
+    - 192.0.2.0/24
+    - 198.51.100.0/24
+    - 203.0.113.0/24
+  note: Documentation-only lab placeholders. Replace these RFC-5737 TEST-NET ranges with your own authorized lab ranges before going live. Never monitor networks you do not own.

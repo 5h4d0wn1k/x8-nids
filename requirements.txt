@@ -1,0 +1,6 @@
+# X8 NIDS — runtime dependencies
+#
+# scapy is OPTIONAL and only needed for live capture and pcap replay.
+# The offline simulation engine (nids simulate / nids selftest) uses ONLY the
+# Python standard library, so everything is testable with no extra installs.
+scapy>=2.5

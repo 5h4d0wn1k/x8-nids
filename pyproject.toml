@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "x8-nids"
+version = "1.0.0"
+description = "Detection-only (blue team) network intrusion detection system for monitoring networks you own."
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [
+    { name = "5h4d0wn1k", email = "5h4d0wn1k@users.noreply.github.com" },
+]
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX :: Linux",
+    "Topic :: Security",
+    "Intended Audience :: Information Technology",
+]
+
+[project.optional-dependencies]
+pcap = ["scapy>=2.5"]
+
+[project.scripts]
+nids = "firmware.cli:main"
+
+[tool.setuptools]
+packages = ["firmware"]
